@@ -3,7 +3,7 @@ title: The ACME LURK Protocol
 abbrev: ACME LURK
 docname: draft-sheffer-acme-lurk-latest
 date: 2016-09-17
-category: proposed standard
+category: std
 
 ipr: trust200902
 area: Security
