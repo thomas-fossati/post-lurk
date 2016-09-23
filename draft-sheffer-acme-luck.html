@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>The ACME LUCK Protocol</title>
+  <title>The ACME LURK Protocol</title>
 
 <style type="text/css">/*<![CDATA[*/
 @viewport {
@@ -268,18 +268,10 @@ li, p {
 /*]]>*/</style>
 
   <link href="#rfc.toc" rel="Contents"/>
-<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
-<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology"/>
-<link href="#rfc.section.2" rel="Chapter" title="2 Use Cases"/>
-<link href="#rfc.section.3" rel="Chapter" title="3 Protocol"/>
-<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Actors"/>
-<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Boostrap"/>
-<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Renewal"/>
-<link href="#rfc.section.3.4" rel="Chapter" title="3.4 Revocation"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations"/>
-<link href="#rfc.references" rel="Chapter" title="5 References"/>
-<link href="#rfc.references.1" rel="Chapter" title="5.1 Normative References"/>
-<link href="#rfc.references.2" rel="Chapter" title="5.2 Informative References"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Use Cases"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Basic Protocol Flow"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="4 Normative References"/>
 <link href="#rfc.appendix.A" rel="Chapter" title="A Examples"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
@@ -288,10 +280,10 @@ li, p {
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Sheffer, Y., Lopez, D., and T. Fossati" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-sheffer-acme-luck-latest" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-sheffer-acme-lurk-latest" />
   <meta name="dct.issued" scheme="ISO8601" content="2016-9-17" />
-  <meta name="dct.abstract" content="This document describes ACME LUCK (Limited Use of Cached Keys), a protocol that allows a domain owner to delegate some other entity (which we will call &#8220;the TLS server&#8221;) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates, whose validity is measured in days (e.g., 3 days), allow the domain owner to withdraw the TLS server&#8217;s authorization when necessary, without requiring certificate revocation.  In order to attain a high degree of automation for the certificate generation and provisioning processes, this protocol extends the ACME interfaces." />
-  <meta name="description" content="This document describes ACME LUCK (Limited Use of Cached Keys), a protocol that allows a domain owner to delegate some other entity (which we will call &#8220;the TLS server&#8221;) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates, whose validity is measured in days (e.g., 3 days), allow the domain owner to withdraw the TLS server&#8217;s authorization when necessary, without requiring certificate revocation.  In order to attain a high degree of automation for the certificate generation and provisioning processes, this protocol extends the ACME interfaces." />
+  <meta name="dct.abstract" content="TODO abstract" />
+  <meta name="description" content="TODO abstract" />
 
 </head>
 
@@ -314,7 +306,7 @@ li, p {
 </tr>
 <tr>
   <td class="left">Expires: March 21, 2017</td>
-  <td class="right">Telefonica I+D</td>
+  <td class="right">Telefonica</td>
 </tr>
 <tr>
   <td class="left"></td>
@@ -333,13 +325,13 @@ li, p {
     </tbody>
   </table>
 
-  <p class="title">The ACME LUCK Protocol<br />
-  <span class="filename">draft-sheffer-acme-luck-latest</span></p>
+  <p class="title">The ACME LURK Protocol<br />
+  <span class="filename">draft-sheffer-acme-lurk-latest</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
-<p>This document describes ACME LUCK (Limited Use of Cached Keys), a protocol that allows a domain owner to delegate some other entity (which we will call &#8220;the TLS server&#8221;) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates, whose validity is measured in days (e.g., 3 days), allow the domain owner to withdraw the TLS server&#8217;s authorization when necessary, without requiring certificate revocation.  In order to attain a high degree of automation for the certificate generation and provisioning processes, this protocol extends the ACME interfaces.</p>
+<p>TODO abstract</p>
 <h1 id="rfc.status">
   <a href="#rfc.status">Status of This Memo</a>
 </h1>
@@ -358,65 +350,42 @@ li, p {
   <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
   <ul class="toc">
 
-  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
-<ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a></li>
-</ul><li>2.   <a href="#rfc.section.2">Use Cases</a></li>
-<li>3.   <a href="#rfc.section.3">Protocol</a></li>
-<ul><li>3.1.   <a href="#rfc.section.3.1">Actors</a></li>
-<li>3.2.   <a href="#rfc.section.3.2">Boostrap</a></li>
-<li>3.3.   <a href="#rfc.section.3.3">Renewal</a></li>
-<li>3.4.   <a href="#rfc.section.3.4">Revocation</a></li>
-</ul><li>4.   <a href="#rfc.section.4">Security Considerations</a></li>
-<li>5.   <a href="#rfc.references">References</a></li>
-<ul><li>5.1.   <a href="#rfc.references.1">Normative References</a></li>
-<li>5.2.   <a href="#rfc.references.2">Informative References</a></li>
-</ul><li>Appendix A.   <a href="#rfc.appendix.A">Examples</a></li>
+  	<li>1.   <a href="#rfc.section.1">Use Cases</a></li>
+<li>2.   <a href="#rfc.section.2">Basic Protocol Flow</a></li>
+<li>3.   <a href="#rfc.section.3">Security Considerations</a></li>
+<li>4.   <a href="#rfc.references">Normative References</a></li>
+<li>Appendix A.   <a href="#rfc.appendix.A">Examples</a></li>
 <li><a href="#rfc.authors">Authors' Addresses</a></li>
 
 
   </ul>
 
-  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
-<p><a href="#Topalovic">[Topalovic]</a> <a href="#Liu">[Liu]</a></p>
-<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#terminology" id="terminology">Terminology</a></h1>
-<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
-<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#use-cases" id="use-cases">Use Cases</a></h1>
-<p id="rfc.section.2.p.1">TBD_NAME applies to cases in which a TLS Server terminates a TLS connection on behalf of the entity that &#8220;owns&#8221; the namespace under which the content is served.  A typical instantiation is a Content Provider which relies on one or more third party operated Content Delivery Networks (CDNs) to deliver content under its own name.</p>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#protocol" id="protocol">Protocol</a></h1>
-<p id="rfc.section.3.p.1">bla</p>
-<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#actors" id="actors">Actors</a></h1>
-<p/>
-
-<ul>
-  <li>TLS Server</li>
-  <li>Content Provider</li>
-  <li>ACME</li>
-</ul>
-<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#boostrap" id="boostrap">Boostrap</a></h1>
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#use-cases" id="use-cases">Use Cases</a></h1>
+<p id="rfc.section.1.p.1">TODO use cases</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#basic-protocol-flow" id="basic-protocol-flow">Basic Protocol Flow</a></h1>
 <div id="rfc.figure.1"/>
-<div id="figprotoboot"/>
+<div id="figproto"/>
 <pre>
-TODO
+
+        STuPiD   ```````````````````````````````,
+        Script   &lt;----------------------------. ,
+                                              | ,
+          ^ ,                                 | ,
+          | ,                                 | ,
+    (1)   | ,                                 | ,  (3)
+    POST  | ,                                 | ,  GET
+          | ,                                 | ,
+          | v                                 | v
+
+        Peer A   -----------------------&gt;   Peer B
+                           (2)
+                       out-of-band
+                       Notification
 </pre>
-<p class="figure">Figure 1: ACME LUCK Protocol Boostrap</p>
-<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#renewal" id="renewal">Renewal</a></h1>
-<div id="rfc.figure.2"/>
-<div id="figprotorenewal"/>
-<pre>
-TODO
-</pre>
-<p class="figure">Figure 2: ACME LUCK Protocol Renewal</p>
-<h1 id="rfc.section.3.4"><a href="#rfc.section.3.4">3.4.</a> <a href="#revocation" id="revocation">Revocation</a></h1>
-<div id="rfc.figure.3"/>
-<div id="figprotorevoke"/>
-<pre>
-TODO
-</pre>
-<p class="figure">Figure 3: ACME LUCK Protocol Revocation</p>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
-<p id="rfc.section.4.p.1">TODO security considerations</p>
-<h1 id="rfc.references"><a href="#rfc.references">5.</a> References</h1>
-<h1 id="rfc.references.1"><a href="#rfc.references.1">5.1.</a> Normative References</h1>
+<p class="figure">Figure 1: ACME LURK Protocol Flow</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
+<p id="rfc.section.3.p.1">TODO security considerations</p>
+<h1 id="rfc.references"><a href="#rfc.references">4.</a> Normative References</h1>
 <table>
   <tbody>
     <tr>
@@ -427,31 +396,14 @@ TODO
     </tr>
   </tbody>
 </table>
-<h1 id="rfc.references.2"><a href="#rfc.references.2">5.2.</a> Informative References</h1>
-<table>
-  <tbody>
-    <tr>
-      <td class="reference">
-        <b id="Liu">[Liu]</b>
-      </td>
-      <td class="top"><a>Liu, Y.</a>, <a>Tome, W.</a>, <a>Zhang, L.</a>, <a>Choffnes, D.</a>, <a>Levin, D.</a>, <a>Maggs, B.</a>, <a>Mislove, A.</a>, <a>Schulman, A.</a> and <a>C. Wilson</a>, "<a href="http://www.cs.umd.edu/~dml/papers/revocations_imc15.pdf">An End-to-End Measurement of Certificate Revocation in the Web&#8217;s PKI</a>", Proceedings of the 2015 ACM Conference on Internet Measurement Conference , 2015.</td>
-    </tr>
-    <tr>
-      <td class="reference">
-        <b id="Topalovic">[Topalovic]</b>
-      </td>
-      <td class="top"><a>Topalovic, E.</a>, <a>Saeta, B.</a>, <a>Huang, L.</a>, <a>Jackson, C.</a>, <a>Boneh, D.</a> and <a>E. Topalovic</a>, "<a href="http://www.w2spconf.com/2012/papers/w2sp12-final9.pdf">Towards Short-Lived Certificates</a>", In IEEE Oakland Web 2.0 Security and Privacy (W2SP) , 2012.</td>
-    </tr>
-  </tbody>
-</table>
 <h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#examples" id="examples">Examples</a></h1>
-<p id="rfc.section.A.p.1">This appendix provides some examples of the ACME LUCK protocol operation.</p>
-<div id="rfc.figure.4"/>
+<p id="rfc.section.A.p.1">This appendix provides some examples of the ACME LURK protocol operation.</p>
+<div id="rfc.figure.2"/>
 <div id="figexample"/>
 <pre>
 TODO
 </pre>
-<p class="figure">Figure 4: Example 1</p>
+<p class="figure">Figure 2: Example 1</p>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Authors' Addresses</a>
 </h1>
@@ -479,12 +431,12 @@ TODO
 </div><div class="avoidbreak">
   <address class="vcard">
 	<span class="vcardline">
-	  <span class="fn">Diego R. Lopez</span> 
+	  <span class="fn">Diego Lopez</span> 
 	  <span class="n hidden">
 		<span class="family-name">Lopez</span>
 	  </span>
 	</span>
-	<span class="org vcardline">Telefonica I+D</span>
+	<span class="org vcardline">Telefonica</span>
 	<span class="adr">
 	  
 	  <span class="vcardline">
@@ -494,7 +446,7 @@ TODO
 	  </span>
 	  <span class="country-name vcardline"></span>
 	</span>
-	<span class="vcardline">EMail: <a href="mailto:diego@tid.es">diego@tid.es</a></span>
+	<span class="vcardline">EMail: <a href="mailto:diego@telefonica.es">diego@telefonica.es</a></span>
 
   </address>
 </div><div class="avoidbreak">
