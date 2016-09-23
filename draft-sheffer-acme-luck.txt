@@ -174,6 +174,11 @@ Internet-Draft                  ACME LUCK                 September 2016
 
 5.1.  Normative References
 
+   [I-D.ietf-acme-acme]
+              Barnes, R., Hoffman-Andrews, J., and J. Kasten, "Automatic
+              Certificate Management Environment (ACME)", draft-ietf-
+              acme-acme-03 (work in progress), July 2016.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -186,11 +191,6 @@ Internet-Draft                  ACME LUCK                 September 2016
               Key Infrastructure (PKI) for the World Wide Web", draft-
               iab-web-pki-problems-03 (work in progress), September
               2016.
-
-   [I-D.ietf-acme-acme]
-              Barnes, R., Hoffman-Andrews, J., and J. Kasten, "Automatic
-              Certificate Management Environment (ACME)", draft-ietf-
-              acme-acme-03 (work in progress), July 2016.
 
 Appendix A.  Examples
 
