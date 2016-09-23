@@ -32,10 +32,10 @@ author:
 
 normative:
   RFC2119:
+  I-D.ietf-acme-acme:
 
 informative:
   I-D.iab-web-pki-problems:
-  I-D.ietf-acme-acme:
 
 --- abstract
 
