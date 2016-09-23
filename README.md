@@ -2,7 +2,7 @@
 
 This is the working area for the Individual internet-draft, "The ACME LUCK Protocol".
 
-* [Editor's copy](https://thomas-fossati.github.io/post-lukk/index.html)
+* [Editor's copy](https://thomas-fossati.github.io/post-lurk/index.html)
 * [Individual Draft] (https://tools.ietf.org/html/draft-sheffer-acme-luck)
 
 
