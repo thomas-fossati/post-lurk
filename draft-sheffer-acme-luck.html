@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>The ACME LURK Protocol</title>
+  <title>The ACME LUCK (Limited Use of Cached Keys) Protocol</title>
 
 <style type="text/css">/*<![CDATA[*/
 @viewport {
@@ -268,10 +268,16 @@ li, p {
 /*]]>*/</style>
 
   <link href="#rfc.toc" rel="Contents"/>
-<link href="#rfc.section.1" rel="Chapter" title="1 Use Cases"/>
-<link href="#rfc.section.2" rel="Chapter" title="2 Basic Protocol Flow"/>
-<link href="#rfc.section.3" rel="Chapter" title="3 Security Considerations"/>
-<link href="#rfc.references" rel="Chapter" title="4 Normative References"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Conventions used in this document"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Protocol Flow"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Bootstrap"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Refresh"/>
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Termination"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="5 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="5.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="5.2 Informative References"/>
 <link href="#rfc.appendix.A" rel="Chapter" title="A Examples"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
@@ -280,10 +286,10 @@ li, p {
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Sheffer, Y., Lopez, D., and T. Fossati" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-sheffer-acme-lurk-latest" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-sheffer-acme-luck-latest" />
   <meta name="dct.issued" scheme="ISO8601" content="2016-9-17" />
-  <meta name="dct.abstract" content="TODO abstract" />
-  <meta name="description" content="TODO abstract" />
+  <meta name="dct.abstract" content="This memo describes the ACME LUCK (Limited Use of Cached Keys) protocol.  LUCK allows a domain owner to delegate to some other entity (e.g., a CDN edge cache) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates allow the domain owner to revoke the TLS server&#8217;s authorization when necessary, without requiring certificate revocation." />
+  <meta name="description" content="This memo describes the ACME LUCK (Limited Use of Cached Keys) protocol.  LUCK allows a domain owner to delegate to some other entity (e.g., a CDN edge cache) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates allow the domain owner to revoke the TLS server&#8217;s authorization when necessary, without requiring certificate revocation." />
 
 </head>
 
@@ -306,7 +312,7 @@ li, p {
 </tr>
 <tr>
   <td class="left">Expires: March 21, 2017</td>
-  <td class="right">Telefonica</td>
+  <td class="right">Telefonica I+D</td>
 </tr>
 <tr>
   <td class="left"></td>
@@ -325,13 +331,13 @@ li, p {
     </tbody>
   </table>
 
-  <p class="title">The ACME LURK Protocol<br />
-  <span class="filename">draft-sheffer-acme-lurk-latest</span></p>
+  <p class="title">The ACME LUCK (Limited Use of Cached Keys) Protocol<br />
+  <span class="filename">draft-sheffer-acme-luck-latest</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
-<p>TODO abstract</p>
+<p>This memo describes the ACME LUCK (Limited Use of Cached Keys) protocol.  LUCK allows a domain owner to delegate to some other entity (e.g., a CDN edge cache) the authority to terminate TLS connections on its behalf, using short-term certificates.  These certificates allow the domain owner to revoke the TLS server&#8217;s authorization when necessary, without requiring certificate revocation.</p>
 <h1 id="rfc.status">
   <a href="#rfc.status">Status of This Memo</a>
 </h1>
@@ -350,42 +356,62 @@ li, p {
   <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
   <ul class="toc">
 
-  	<li>1.   <a href="#rfc.section.1">Use Cases</a></li>
-<li>2.   <a href="#rfc.section.2">Basic Protocol Flow</a></li>
-<li>3.   <a href="#rfc.section.3">Security Considerations</a></li>
-<li>4.   <a href="#rfc.references">Normative References</a></li>
-<li>Appendix A.   <a href="#rfc.appendix.A">Examples</a></li>
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Conventions used in this document</a></li>
+<li>3.   <a href="#rfc.section.3">Protocol Flow</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Bootstrap</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">Refresh</a></li>
+<li>3.3.   <a href="#rfc.section.3.3">Termination</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Security Considerations</a></li>
+<li>5.   <a href="#rfc.references">References</a></li>
+<ul><li>5.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>5.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Examples</a></li>
 <li><a href="#rfc.authors">Authors' Addresses</a></li>
 
 
   </ul>
 
-  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#use-cases" id="use-cases">Use Cases</a></h1>
-<p id="rfc.section.1.p.1">TODO use cases</p>
-<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#basic-protocol-flow" id="basic-protocol-flow">Basic Protocol Flow</a></h1>
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">Content owners frequently prefer a Content Delivery Network (CDN) to distribute their content.  CDNs typically have very large footprint, which allows them to serve content to a global audience with a high aggregate bandwidth and low latency.  To protect this traffic, the CDN uses HTTPS and presents a certificate that usually bears the content owner&#8217;s name.  However, many content owners balk at sharing their long-term private keys with another organization.</p>
+<p id="rfc.section.1.p.2">This memo describes the ACME LUCK (Limited Use of Cached Keys) protocol. LUCK extends ACME <a href="#I-D.ietf-acme-acme">[I-D.ietf-acme-acme]</a> to automate the generation and renewal of short-term certificates that a third party server  (e.g., a CDN edge cache), which has been explicitly authorized by the legit content owner, can use to serve content using that content owner&#8217;s domain name.</p>
+<p id="rfc.section.1.p.3">The content owner can revoke the third party&#8217;s authorization when necessary by instructing the ACME server to stop the automatic certificate refresh and let the active certificate expire (e.g., after a few hours).   Note that, by enforcing the use of short-term certificates, LUCK doesn&#8217;t rely on explicit certificate revocation in order to work (see section 3.2.1 of <a href="#I-D.iab-web-pki-problems">[I-D.iab-web-pki-problems]</a>).</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#conventions-used-in-this-document" id="conventions-used-in-this-document">Conventions used in this document</a></h1>
+<p id="rfc.section.2.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
+<p id="rfc.section.2.p.2">The following terms are used to identify the LUCK protocol actors:</p>
+<p/>
+
+<ul>
+  <li>Content Owner: the owner of a domain name that uses a third party to deliver its content via HTTPS.</li>
+  <li>TLS server: the node delegated by the Content Owner to terminate the TLS connection (typically a CDN edge cache).  During TLS handshake it offers its clients a certificate bearing the Content Owner&#8217;s name.</li>
+  <li>ACME LUCK Server: an ACME server that also exposes LUCK interfaces to the Content Owner to boostrap and terminate the delegation, and to the TLS server to serve the automatically refreshed certificates.</li>
+</ul>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#protocol-flow" id="protocol-flow">Protocol Flow</a></h1>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#bootstrap" id="bootstrap">Bootstrap</a></h1>
 <div id="rfc.figure.1"/>
-<div id="figproto"/>
+<div id="figprotoboot"/>
 <pre>
-
-        STuPiD   ```````````````````````````````,
-        Script   &lt;----------------------------. ,
-                                              | ,
-          ^ ,                                 | ,
-          | ,                                 | ,
-    (1)   | ,                                 | ,  (3)
-    POST  | ,                                 | ,  GET
-          | ,                                 | ,
-          | v                                 | v
-
-        Peer A   -----------------------&gt;   Peer B
-                           (2)
-                       out-of-band
-                       Notification
+TODO
 </pre>
-<p class="figure">Figure 1: ACME LURK Protocol Flow</p>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
-<p id="rfc.section.3.p.1">TODO security considerations</p>
-<h1 id="rfc.references"><a href="#rfc.references">4.</a> Normative References</h1>
+<p class="figure">Figure 1: Bootstrap</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#refresh" id="refresh">Refresh</a></h1>
+<div id="rfc.figure.2"/>
+<div id="figprotorefresh"/>
+<pre>
+TODO
+</pre>
+<p class="figure">Figure 2: Refresh</p>
+<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#termination" id="termination">Termination</a></h1>
+<div id="rfc.figure.3"/>
+<div id="figprototerm"/>
+<pre>
+TODO
+</pre>
+<p class="figure">Figure 3: Termination</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
+<p id="rfc.section.4.p.1">TODO security considerations</p>
+<h1 id="rfc.references"><a href="#rfc.references">5.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">5.1.</a> Normative References</h1>
 <table>
   <tbody>
     <tr>
@@ -396,14 +422,31 @@ li, p {
     </tr>
   </tbody>
 </table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">5.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.iab-web-pki-problems">[I-D.iab-web-pki-problems]</b>
+      </td>
+      <td class="top"><a>Housley, R.</a> and <a>K. O'Donoghue</a>, "<a href="http://tools.ietf.org/html/draft-iab-web-pki-problems-03">Problems with the Public Key Infrastructure (PKI) for the World Wide Web</a>", Internet-Draft draft-iab-web-pki-problems-03, September 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-acme-acme">[I-D.ietf-acme-acme]</b>
+      </td>
+      <td class="top"><a>Barnes, R.</a>, <a>Hoffman-Andrews, J.</a> and <a>J. Kasten</a>, "<a href="http://tools.ietf.org/html/draft-ietf-acme-acme-03">Automatic Certificate Management Environment (ACME)</a>", Internet-Draft draft-ietf-acme-acme-03, July 2016.</td>
+    </tr>
+  </tbody>
+</table>
 <h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#examples" id="examples">Examples</a></h1>
-<p id="rfc.section.A.p.1">This appendix provides some examples of the ACME LURK protocol operation.</p>
-<div id="rfc.figure.2"/>
+<p id="rfc.section.A.p.1">This appendix provides some examples of the ACME LUCK protocol operation.</p>
+<div id="rfc.figure.4"/>
 <div id="figexample"/>
 <pre>
 TODO
 </pre>
-<p class="figure">Figure 2: Example 1</p>
+<p class="figure">Figure 4: Example 1</p>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Authors' Addresses</a>
 </h1>
@@ -436,7 +479,7 @@ TODO
 		<span class="family-name">Lopez</span>
 	  </span>
 	</span>
-	<span class="org vcardline">Telefonica</span>
+	<span class="org vcardline">Telefonica I+D</span>
 	<span class="adr">
 	  
 	  <span class="vcardline">
